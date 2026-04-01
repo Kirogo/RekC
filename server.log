@@ -1,0 +1,816 @@
+[11:31:24 INF] Using MySQL connection to database: RekovaDB
+[11:31:25 ERR] Database migration failed: Access denied for user 'root'@'localhost' (using password: NO)
+MySqlConnector.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 743
+   at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 712
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 537
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 428
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 433
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int64 startingTimestamp, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 111
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int64 startingTimestamp, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 144
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 919
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 419
+   at RekovaBE_CSharp.Services.DbMigrationService.MigrateAsync() in C:\Users\samuel.kirogo\OneDrive - NCBA Group PLC\Desktop\Projects\Collect\RekovaBE-CSharp\Services\DbMigrationService.cs:line 30
+[11:31:25 WRN] Database migration warning (non-fatal): Access denied for user 'root'@'localhost' (using password: NO). The app will continue but some features may not work properly. Make sure DB_PASSWORD and other DB_* environment variables are set.
+MySqlConnector.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ServerSession.SendClearPasswordAsync(String password, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 743
+   at MySqlConnector.Core.ServerSession.SwitchAuthenticationAsync(ConnectionSettings cs, String password, PayloadData payload, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 712
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int64 startingTimestamp, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 537
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 428
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, Action`4 logMessage, Int64 startingTimestamp, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 433
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int64 startingTimestamp, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 111
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int64 startingTimestamp, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 144
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int64 startingTimestamp, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 919
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 419
+   at RekovaBE_CSharp.Services.DbMigrationService.MigrateAsync() in C:\Users\samuel.kirogo\OneDrive - NCBA Group PLC\Desktop\Projects\Collect\RekovaBE-CSharp\Services\DbMigrationService.cs:line 30
+   at Program.<Main>$(String[] args) in C:\Users\samuel.kirogo\OneDrive - NCBA Group PLC\Desktop\Projects\Collect\RekovaBE-CSharp\Program.cs:line 177
+[11:31:27 INF] Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='RekovaDB' AND TABLE_NAME='__EFMigrationsHistory';
+[11:31:27 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='RekovaDB' AND TABLE_NAME='__EFMigrationsHistory';
+[11:31:27 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `MigrationId`, `ProductVersion`
+FROM `__EFMigrationsHistory`
+ORDER BY `MigrationId`;
+[11:31:27 INF] No migrations were applied. The database is already up to date.
+[11:31:27 INF] Database migration completed successfully
+[11:31:27 INF] Starting application on port 5000
+[11:31:28 INF] User profile is available. Using 'C:\Users\samuel.kirogo\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+[11:31:28 INF] Now listening on: http://0.0.0.0:5000
+[11:31:28 INF] Application started. Press Ctrl+C to shut down.
+[11:31:28 INF] Hosting environment: Production
+[11:31:28 INF] Content root path: C:\Users\samuel.kirogo\OneDrive - NCBA Group PLC\Desktop\Projects\Collect\RekovaBE-CSharp
+[11:31:31 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[11:31:31 WRN] Failed to determine the https port for redirect.
+[11:31:31 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:31:31 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[11:31:31 INF] Login attempt for username: michael.mwai
+[11:31:31 INF] Executed DbCommand (51ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[11:31:31 INF] User found: michael.mwai, Role: officer, IsActive: True
+[11:31:32 INF] Password verification result: False
+[11:31:32 WRN] Login failed: Invalid password for user michael.mwai
+[11:31:32 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[11:31:32 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 788.0994ms
+[11:31:32 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:31:32 INF] HTTP POST /api/auth/login responded 401 in 842.5678 ms
+[11:31:32 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 884.2718ms
+[11:31:36 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[11:31:36 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:31:36 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[11:31:36 INF] Login attempt for username: michael.mwai
+[11:31:36 INF] Executed DbCommand (2ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[11:31:36 INF] User found: michael.mwai, Role: officer, IsActive: True
+[11:31:36 INF] Password verification result: False
+[11:31:36 WRN] Login failed: Invalid password for user michael.mwai
+[11:31:36 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[11:31:36 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 281.0592ms
+[11:31:36 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:31:36 INF] HTTP POST /api/auth/login responded 401 in 288.2276 ms
+[11:31:36 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 296.8327ms
+[11:34:49 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[11:34:49 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:34:49 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[11:34:49 INF] Login attempt for username: michael.mwai
+[11:34:49 INF] Executed DbCommand (4ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[11:34:49 INF] User found: michael.mwai, Role: officer, IsActive: True
+[11:34:50 INF] Password verification result: False
+[11:34:50 WRN] Login failed: Invalid password for user michael.mwai
+[11:34:50 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[11:34:50 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 123.935ms
+[11:34:50 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[11:34:50 INF] HTTP POST /api/auth/login responded 401 in 131.7638 ms
+[11:34:50 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 133.6364ms
+[12:03:54 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/health - null null
+[12:03:54 INF] Executing endpoint 'HTTP: GET /api/health'
+[12:03:54 INF] Setting HTTP status code 200.
+[12:03:54 INF] Writing value of type '<>f__AnonymousType20`4' as Json.
+[12:03:54 INF] Executed endpoint 'HTTP: GET /api/health'
+[12:03:54 INF] HTTP GET /api/health responded 200 in 86.0070 ms
+[12:03:54 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/health - 200 null application/json; charset=utf-8 87.548ms
+[12:04:02 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/health - null null
+[12:04:02 INF] Executing endpoint 'HTTP: GET /api/health'
+[12:04:02 INF] Setting HTTP status code 200.
+[12:04:02 INF] Writing value of type '<>f__AnonymousType20`4' as Json.
+[12:04:02 INF] Executed endpoint 'HTTP: GET /api/health'
+[12:04:02 INF] HTTP GET /api/health responded 200 in 51.1900 ms
+[12:04:02 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/health - 200 null application/json; charset=utf-8 53.1656ms
+[12:04:42 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/auth/login - null null
+[12:04:42 INF] CORS policy execution successful.
+[12:04:42 INF] HTTP OPTIONS /api/auth/login responded 204 in 7.6927 ms
+[12:04:42 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/auth/login - 204 null null 9.5501ms
+[12:04:42 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[12:04:42 INF] CORS policy execution successful.
+[12:04:42 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:04:42 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[12:04:42 INF] Login attempt for username: chris.paul
+[12:04:42 INF] Executed DbCommand (2ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[12:04:42 INF] User found: chris.paul, Role: supervisor, IsActive: True
+[12:04:42 INF] Password verification result: True
+[12:04:42 INF] JWT token generated for user: chris.paul
+[12:04:42 INF] Token generated successfully for user chris.paul
+[12:04:43 INF] Executed DbCommand (56ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (Size = 50), @p4='?' (Size = 100), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTime), @p7='?' (Size = 100), @p8='?' (Size = 50), @p9='?' (Size = 255), @p10='?' (Size = 20), @p11='?' (Size = 50), @p12='?' (DbType = DateTime), @p13='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SET AUTOCOMMIT = 1;
+UPDATE `users` SET `created_at` = @p0, `department` = @p1, `email` = @p2, `employee_id` = @p3, `first_name` = @p4, `is_active` = @p5, `last_login` = @p6, `last_name` = @p7, `loan_type` = @p8, `password_hash` = @p9, `phone` = @p10, `role` = @p11, `updated_at` = @p12, `username` = @p13
+WHERE `id` = @p14;
+SELECT ROW_COUNT();
+[12:04:43 ERR] Failed executing DbCommand (6ms) [Parameters=[@p0='?' (Size = 100), @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (Size = 4000), @p5='?' (Size = 45), @p6='?' (Size = 50), @p7='?' (DbType = Int32), @p8='?' (Size = 50), @p9='?' (Size = 50), @p10='?' (Size = 4000), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+INSERT INTO `activities` (`action`, `amount`, `created_at`, `customer_id`, `description`, `ip_address`, `payment_method`, `resource_id`, `resource_type`, `transaction_status`, `user_agent`, `user_id`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+SELECT `id`
+FROM `activities`
+WHERE ROW_COUNT() = 1 AND `id` = LAST_INSERT_ID();
+[12:04:43 ERR] An exception occurred in the database while saving changes for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+[12:04:43 ERR] Error logging activity: An error occurred while saving the entity changes. See the inner exception for details.
+[12:04:43 INF] Executing OkObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[[RekovaBE_CSharp.Models.DTOs.LoginResponseDto, RekovaBE-CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[12:04:43 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 1285.6755ms
+[12:04:43 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:04:43 INF] HTTP POST /api/auth/login responded 200 in 1289.1807 ms
+[12:04:43 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 200 null application/json; charset=utf-8 1290.4255ms
+[12:04:43 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/customers/dashboard/stats - null null
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - null null
+[12:04:43 INF] HTTP OPTIONS /api/customers/dashboard/stats responded 204 in 1.5756 ms
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/customers/dashboard/stats - 204 null null 4.9027ms
+[12:04:43 INF] HTTP OPTIONS /api/promises responded 204 in 1.3991 ms
+[12:04:43 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - 204 null null 2.7801ms
+[12:04:43 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/customers/dashboard/stats - null null
+[12:04:43 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - null null
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] HTTP OPTIONS /api/promises responded 204 in 3.8343 ms
+[12:04:43 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - 204 null null 8.4046ms
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] HTTP OPTIONS /api/customers/dashboard/stats responded 204 in 2.0529 ms
+[12:04:43 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/customers/dashboard/stats - 204 null null 13.0394ms
+[12:04:43 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/customers/dashboard/stats - null null
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - null null
+[12:04:43 INF] CORS policy execution successful.
+[12:04:43 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp)'
+[12:04:43 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp)'
+[12:04:43 INF] Route matched with {action = "GetDashboardStats", controller = "Customers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.DashboardStatsDto]]] GetDashboardStats() on controller RekovaBE_CSharp.Controllers.CustomersController (RekovaBE-CSharp).
+[12:04:43 INF] Route matched with {action = "GetPromises", controller = "Promises"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[System.Collections.Generic.List`1[RekovaBE_CSharp.Models.DTOs.PromiseDto]]]] GetPromises(System.String, Int32, System.String, System.String) on controller RekovaBE_CSharp.Controllers.PromisesController (RekovaBE-CSharp).
+[12:04:44 INF] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`c`.`loan_balance`), 0.0)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`c`.`arrears`), 0.0)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `customers` AS `c`
+WHERE (`c`.`is_active` = TRUE) AND (`c`.`loan_balance` > 0.0)
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`t`.`amount`), 0.0)
+FROM `transactions` AS `t`
+WHERE `t`.`status` = 'SUCCESS'
+[12:04:44 ERR] Failed executing DbCommand (3ms) [Parameters=[@p0='?' (Size = 100), @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (Size = 4000), @p5='?' (Size = 45), @p6='?' (Size = 50), @p7='?' (DbType = Int32), @p8='?' (Size = 50), @p9='?' (Size = 50), @p10='?' (Size = 4000), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+INSERT INTO `activities` (`action`, `amount`, `created_at`, `customer_id`, `description`, `ip_address`, `payment_method`, `resource_id`, `resource_type`, `transaction_status`, `user_agent`, `user_id`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+SELECT `id`
+FROM `activities`
+WHERE ROW_COUNT() = 1 AND `id` = LAST_INSERT_ID();
+[12:04:44 ERR] An exception occurred in the database while saving changes for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+[12:04:44 ERR] Error logging activity: An error occurred while saving the entity changes. See the inner exception for details.
+[12:04:44 INF] Executing OkObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[[RekovaBE_CSharp.Models.DTOs.DashboardStatsDto, RekovaBE-CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[12:04:44 ERR] Failed executing DbCommand (9ms) [Parameters=[@__ToUpper_0='?' (Size = 50), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t`.`id`, `t`.`created_at`, `t`.`created_by_name`, `t`.`created_by_user_id`, `t`.`customer_id`, `t`.`customer_name`, `t`.`fulfillment_amount`, `t`.`fulfillment_date`, `t`.`next_follow_up_date`, `t`.`notes`, `t`.`phone_number`, `t`.`promise_amount`, `t`.`promise_date`, `t`.`promise_id`, `t`.`promise_type`, `t`.`reminder_sent`, `t`.`status`, `t`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `p`.`id`, `p`.`created_at`, `p`.`created_by_name`, `p`.`created_by_user_id`, `p`.`customer_id`, `p`.`customer_name`, `p`.`fulfillment_amount`, `p`.`fulfillment_date`, `p`.`next_follow_up_date`, `p`.`notes`, `p`.`phone_number`, `p`.`promise_amount`, `p`.`promise_date`, `p`.`promise_id`, `p`.`promise_type`, `p`.`reminder_sent`, `p`.`status`, `p`.`updated_at`
+    FROM `promises` AS `p`
+    WHERE `p`.`status` = @__ToUpper_0
+    ORDER BY `p`.`promise_date`
+    LIMIT @__p_1
+) AS `t`
+INNER JOIN `customers` AS `c` ON `t`.`customer_id` = `c`.`id`
+ORDER BY `t`.`promise_date`
+[12:04:44 INF] Executed action RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp) in 403.7857ms
+[12:04:44 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp)'
+[12:04:44 INF] HTTP GET /api/customers/dashboard/stats responded 200 in 576.0953 ms
+[12:04:44 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/customers/dashboard/stats - 200 null application/json; charset=utf-8 577.4778ms
+[12:04:44 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 'p.customer_name' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 'p.customer_name' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:44 ERR] Error getting promises: Unknown column 'p.customer_name' in 'field list'
+[12:04:44 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/customers/dashboard/stats - null null
+[12:04:44 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/transactions/my-transactions?limit=10 - null null
+[12:04:44 INF] CORS policy execution successful.
+[12:04:44 INF] CORS policy execution successful.
+[12:04:44 INF] HTTP OPTIONS /api/transactions/my-transactions responded 204 in 0.7829 ms
+[12:04:44 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:44 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/transactions/my-transactions?limit=10 - 204 null null 5.0001ms
+[12:04:44 INF] Executed action RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp) in 458.3344ms
+[12:04:44 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp)'
+[12:04:44 ERR] HTTP GET /api/promises responded 500 in 635.9032 ms
+[12:04:44 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - 500 null application/json; charset=utf-8 637.8934ms
+[12:04:44 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp)'
+[12:04:44 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/transactions/my-transactions?limit=10 - null null
+[12:04:44 INF] Route matched with {action = "GetDashboardStats", controller = "Customers"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.DashboardStatsDto]]] GetDashboardStats() on controller RekovaBE_CSharp.Controllers.CustomersController (RekovaBE-CSharp).
+[12:04:44 INF] CORS policy execution successful.
+[12:04:44 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp)'
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`c`.`loan_balance`), 0.0)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`c`.`arrears`), 0.0)
+FROM `customers` AS `c`
+WHERE `c`.`is_active` = TRUE
+[12:04:44 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - null null
+[12:04:44 INF] CORS policy execution successful.
+[12:04:44 INF] Route matched with {action = "GetMyTransactions", controller = "Transactions"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[System.Collections.Generic.List`1[RekovaBE_CSharp.Models.DTOs.TransactionDto]]]] GetMyTransactions(Int32, System.String) on controller RekovaBE_CSharp.Controllers.TransactionsController (RekovaBE-CSharp).
+[12:04:44 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp)'
+[12:04:44 INF] Route matched with {action = "GetPromises", controller = "Promises"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[System.Collections.Generic.List`1[RekovaBE_CSharp.Models.DTOs.PromiseDto]]]] GetPromises(System.String, Int32, System.String, System.String) on controller RekovaBE_CSharp.Controllers.PromisesController (RekovaBE-CSharp).
+[12:04:44 INF] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `customers` AS `c`
+WHERE (`c`.`is_active` = TRUE) AND (`c`.`loan_balance` > 0.0)
+[12:04:44 INF] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COALESCE(SUM(`t`.`amount`), 0.0)
+FROM `transactions` AS `t`
+WHERE `t`.`status` = 'SUCCESS'
+[12:04:44 ERR] Failed executing DbCommand (11ms) [Parameters=[@__ToUpper_0='?' (Size = 50), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t`.`id`, `t`.`created_at`, `t`.`created_by_name`, `t`.`created_by_user_id`, `t`.`customer_id`, `t`.`customer_name`, `t`.`fulfillment_amount`, `t`.`fulfillment_date`, `t`.`next_follow_up_date`, `t`.`notes`, `t`.`phone_number`, `t`.`promise_amount`, `t`.`promise_date`, `t`.`promise_id`, `t`.`promise_type`, `t`.`reminder_sent`, `t`.`status`, `t`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `p`.`id`, `p`.`created_at`, `p`.`created_by_name`, `p`.`created_by_user_id`, `p`.`customer_id`, `p`.`customer_name`, `p`.`fulfillment_amount`, `p`.`fulfillment_date`, `p`.`next_follow_up_date`, `p`.`notes`, `p`.`phone_number`, `p`.`promise_amount`, `p`.`promise_date`, `p`.`promise_id`, `p`.`promise_type`, `p`.`reminder_sent`, `p`.`status`, `p`.`updated_at`
+    FROM `promises` AS `p`
+    WHERE `p`.`status` = @__ToUpper_0
+    ORDER BY `p`.`promise_date`
+    LIMIT @__p_1
+) AS `t`
+INNER JOIN `customers` AS `c` ON `t`.`customer_id` = `c`.`id`
+ORDER BY `t`.`promise_date`
+[12:04:44 ERR] Failed executing DbCommand (5ms) [Parameters=[@p0='?' (Size = 100), @p1='?', @p2='?' (DbType = DateTime), @p3='?' (DbType = Int32), @p4='?' (Size = 4000), @p5='?' (Size = 45), @p6='?' (Size = 50), @p7='?' (DbType = Int32), @p8='?' (Size = 50), @p9='?' (Size = 50), @p10='?' (Size = 4000), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+INSERT INTO `activities` (`action`, `amount`, `created_at`, `customer_id`, `description`, `ip_address`, `payment_method`, `resource_id`, `resource_type`, `transaction_status`, `user_agent`, `user_id`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+SELECT `id`
+FROM `activities`
+WHERE ROW_COUNT() = 1 AND `id` = LAST_INSERT_ID();
+[12:04:44 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 'p.customer_name' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 'p.customer_name' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:44 ERR] Error getting promises: Unknown column 'p.customer_name' in 'field list'
+[12:04:44 ERR] An exception occurred in the database while saving changes for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Unknown column 'payment_method' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+[12:04:44 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:44 ERR] Error logging activity: An error occurred while saving the entity changes. See the inner exception for details.
+[12:04:44 INF] Executed action RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp) in 64.8371ms
+[12:04:44 INF] Executing OkObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[[RekovaBE_CSharp.Models.DTOs.DashboardStatsDto, RekovaBE-CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[12:04:44 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.PromisesController.GetPromises (RekovaBE-CSharp)'
+[12:04:44 ERR] HTTP GET /api/promises responded 500 in 69.8848 ms
+[12:04:44 INF] Executed action RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp) in 88.9981ms
+[12:04:44 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.CustomersController.GetDashboardStats (RekovaBE-CSharp)'
+[12:04:44 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20&sortBy=promiseDate&sortOrder=asc - 500 null application/json; charset=utf-8 71.0111ms
+[12:04:44 INF] HTTP GET /api/customers/dashboard/stats responded 200 in 106.6527 ms
+[12:04:44 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/customers/dashboard/stats - 200 null application/json; charset=utf-8 109.0745ms
+[12:04:44 ERR] Failed executing DbCommand (3ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t0`.`id`, `t0`.`amount`, `t0`.`arrears_after`, `t0`.`arrears_before`, `t0`.`created_at`, `t0`.`customer_id`, `t0`.`customer_internal_id`, `t0`.`description`, `t0`.`initiated_by`, `t0`.`initiated_by_user_id`, `t0`.`loan_balance_after`, `t0`.`loan_balance_before`, `t0`.`mpesa_receipt_number`, `t0`.`payment_method`, `t0`.`phone_number`, `t0`.`processed_at`, `t0`.`status`, `t0`.`transaction_id`, `t0`.`transaction_internal_id`, `t0`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `t`.`id`, `t`.`amount`, `t`.`arrears_after`, `t`.`arrears_before`, `t`.`created_at`, `t`.`customer_id`, `t`.`customer_internal_id`, `t`.`description`, `t`.`initiated_by`, `t`.`initiated_by_user_id`, `t`.`loan_balance_after`, `t`.`loan_balance_before`, `t`.`mpesa_receipt_number`, `t`.`payment_method`, `t`.`phone_number`, `t`.`processed_at`, `t`.`status`, `t`.`transaction_id`, `t`.`transaction_internal_id`, `t`.`updated_at`
+    FROM `transactions` AS `t`
+    WHERE `t`.`initiated_by_user_id` = @__userId_0
+    ORDER BY `t`.`created_at` DESC
+    LIMIT @__p_1
+) AS `t0`
+LEFT JOIN `customers` AS `c` ON `t0`.`customer_id` = `c`.`id`
+ORDER BY `t0`.`created_at` DESC
+[12:04:44 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:44 ERR] Error getting my transactions: Unknown column 't.customer_internal_id' in 'field list'
+[12:04:44 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:44 INF] Executed action RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp) in 145.0874ms
+[12:04:44 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp)'
+[12:04:44 ERR] HTTP GET /api/transactions/my-transactions responded 500 in 163.3166 ms
+[12:04:44 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/transactions/my-transactions?limit=10 - 500 null application/json; charset=utf-8 166.4477ms
+[12:04:45 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/transactions/my-transactions?limit=10 - null null
+[12:04:45 INF] CORS policy execution successful.
+[12:04:45 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp)'
+[12:04:45 INF] Route matched with {action = "GetMyTransactions", controller = "Transactions"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[System.Collections.Generic.List`1[RekovaBE_CSharp.Models.DTOs.TransactionDto]]]] GetMyTransactions(Int32, System.String) on controller RekovaBE_CSharp.Controllers.TransactionsController (RekovaBE-CSharp).
+[12:04:45 INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/transactions?limit=100 - null null
+[12:04:45 INF] CORS policy execution successful.
+[12:04:45 INF] HTTP OPTIONS /api/transactions responded 204 in 0.7167 ms
+[12:04:45 INF] Request finished HTTP/1.1 OPTIONS http://localhost:5000/api/transactions?limit=100 - 204 null null 1.8932ms
+[12:04:45 ERR] Failed executing DbCommand (3ms) [Parameters=[@__userId_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t0`.`id`, `t0`.`amount`, `t0`.`arrears_after`, `t0`.`arrears_before`, `t0`.`created_at`, `t0`.`customer_id`, `t0`.`customer_internal_id`, `t0`.`description`, `t0`.`initiated_by`, `t0`.`initiated_by_user_id`, `t0`.`loan_balance_after`, `t0`.`loan_balance_before`, `t0`.`mpesa_receipt_number`, `t0`.`payment_method`, `t0`.`phone_number`, `t0`.`processed_at`, `t0`.`status`, `t0`.`transaction_id`, `t0`.`transaction_internal_id`, `t0`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `t`.`id`, `t`.`amount`, `t`.`arrears_after`, `t`.`arrears_before`, `t`.`created_at`, `t`.`customer_id`, `t`.`customer_internal_id`, `t`.`description`, `t`.`initiated_by`, `t`.`initiated_by_user_id`, `t`.`loan_balance_after`, `t`.`loan_balance_before`, `t`.`mpesa_receipt_number`, `t`.`payment_method`, `t`.`phone_number`, `t`.`processed_at`, `t`.`status`, `t`.`transaction_id`, `t`.`transaction_internal_id`, `t`.`updated_at`
+    FROM `transactions` AS `t`
+    WHERE `t`.`initiated_by_user_id` = @__userId_0
+    ORDER BY `t`.`created_at` DESC
+    LIMIT @__p_1
+) AS `t0`
+LEFT JOIN `customers` AS `c` ON `t0`.`customer_id` = `c`.`id`
+ORDER BY `t0`.`created_at` DESC
+[12:04:45 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/transactions?limit=100 - null null
+[12:04:45 INF] CORS policy execution successful.
+[12:04:45 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp)'
+[12:04:45 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:45 ERR] Error getting my transactions: Unknown column 't.customer_internal_id' in 'field list'
+[12:04:45 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:45 INF] Executed action RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp) in 36.1129ms
+[12:04:45 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetMyTransactions (RekovaBE-CSharp)'
+[12:04:45 ERR] HTTP GET /api/transactions/my-transactions responded 500 in 42.2022 ms
+[12:04:45 INF] Route matched with {action = "GetTransactions", controller = "Transactions"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.PaginationDto`1[RekovaBE_CSharp.Models.DTOs.TransactionDto]]]] GetTransactions(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller RekovaBE_CSharp.Controllers.TransactionsController (RekovaBE-CSharp).
+[12:04:45 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/transactions/my-transactions?limit=10 - 500 null application/json; charset=utf-8 44.0433ms
+[12:04:45 INF] Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `transactions` AS `t`
+[12:04:45 ERR] Failed executing DbCommand (5ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t0`.`id`, `t0`.`amount`, `t0`.`arrears_after`, `t0`.`arrears_before`, `t0`.`created_at`, `t0`.`customer_id`, `t0`.`customer_internal_id`, `t0`.`description`, `t0`.`initiated_by`, `t0`.`initiated_by_user_id`, `t0`.`loan_balance_after`, `t0`.`loan_balance_before`, `t0`.`mpesa_receipt_number`, `t0`.`payment_method`, `t0`.`phone_number`, `t0`.`processed_at`, `t0`.`status`, `t0`.`transaction_id`, `t0`.`transaction_internal_id`, `t0`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `t`.`id`, `t`.`amount`, `t`.`arrears_after`, `t`.`arrears_before`, `t`.`created_at`, `t`.`customer_id`, `t`.`customer_internal_id`, `t`.`description`, `t`.`initiated_by`, `t`.`initiated_by_user_id`, `t`.`loan_balance_after`, `t`.`loan_balance_before`, `t`.`mpesa_receipt_number`, `t`.`payment_method`, `t`.`phone_number`, `t`.`processed_at`, `t`.`status`, `t`.`transaction_id`, `t`.`transaction_internal_id`, `t`.`updated_at`
+    FROM `transactions` AS `t`
+    ORDER BY `t`.`created_at` DESC
+    LIMIT @__p_1 OFFSET @__p_0
+) AS `t0`
+LEFT JOIN `customers` AS `c` ON `t0`.`customer_id` = `c`.`id`
+ORDER BY `t0`.`created_at` DESC
+[12:04:45 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:45 ERR] Error getting transactions: Unknown column 't.customer_internal_id' in 'field list'
+[12:04:45 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:45 INF] Executed action RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp) in 113.1727ms
+[12:04:45 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp)'
+[12:04:45 ERR] HTTP GET /api/transactions responded 500 in 136.4878 ms
+[12:04:45 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/transactions?limit=100 - 500 null application/json; charset=utf-8 138.3413ms
+[12:04:45 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/transactions?limit=100 - null null
+[12:04:45 INF] CORS policy execution successful.
+[12:04:45 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp)'
+[12:04:45 INF] Route matched with {action = "GetTransactions", controller = "Transactions"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.PaginationDto`1[RekovaBE_CSharp.Models.DTOs.TransactionDto]]]] GetTransactions(Int32, Int32, System.String, System.Nullable`1[System.Int32], System.String) on controller RekovaBE_CSharp.Controllers.TransactionsController (RekovaBE-CSharp).
+[12:04:45 INF] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `transactions` AS `t`
+[12:04:45 ERR] Failed executing DbCommand (2ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `t0`.`id`, `t0`.`amount`, `t0`.`arrears_after`, `t0`.`arrears_before`, `t0`.`created_at`, `t0`.`customer_id`, `t0`.`customer_internal_id`, `t0`.`description`, `t0`.`initiated_by`, `t0`.`initiated_by_user_id`, `t0`.`loan_balance_after`, `t0`.`loan_balance_before`, `t0`.`mpesa_receipt_number`, `t0`.`payment_method`, `t0`.`phone_number`, `t0`.`processed_at`, `t0`.`status`, `t0`.`transaction_id`, `t0`.`transaction_internal_id`, `t0`.`updated_at`, `c`.`id`, `c`.`account_number`, `c`.`address`, `c`.`arrears`, `c`.`assigned_to_user_id`, `c`.`created_at`, `c`.`created_by`, `c`.`created_by_user_id`, `c`.`customer_id`, `c`.`customer_internal_id`, `c`.`email`, `c`.`fulfilled_promise_count`, `c`.`has_outstanding_promise`, `c`.`is_active`, `c`.`last_contact_date`, `c`.`last_payment_date`, `c`.`last_promise_date`, `c`.`loan_balance`, `c`.`loan_type`, `c`.`name`, `c`.`national_id`, `c`.`phone_number`, `c`.`promise_count`, `c`.`promise_fulfillment_rate`, `c`.`status`, `c`.`total_repayments`, `c`.`updated_at`
+FROM (
+    SELECT `t`.`id`, `t`.`amount`, `t`.`arrears_after`, `t`.`arrears_before`, `t`.`created_at`, `t`.`customer_id`, `t`.`customer_internal_id`, `t`.`description`, `t`.`initiated_by`, `t`.`initiated_by_user_id`, `t`.`loan_balance_after`, `t`.`loan_balance_before`, `t`.`mpesa_receipt_number`, `t`.`payment_method`, `t`.`phone_number`, `t`.`processed_at`, `t`.`status`, `t`.`transaction_id`, `t`.`transaction_internal_id`, `t`.`updated_at`
+    FROM `transactions` AS `t`
+    ORDER BY `t`.`created_at` DESC
+    LIMIT @__p_1 OFFSET @__p_0
+) AS `t0`
+LEFT JOIN `customers` AS `c` ON `t0`.`customer_id` = `c`.`id`
+ORDER BY `t0`.`created_at` DESC
+[12:04:45 ERR] An exception occurred while iterating over the results of a query for context type 'RekovaBE_CSharp.Data.ApplicationDbContext'.
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Unknown column 't.customer_internal_id' in 'field list'
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 894
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 483
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[12:04:45 ERR] Error getting transactions: Unknown column 't.customer_internal_id' in 'field list'
+[12:04:45 INF] Executing ObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:04:45 INF] Executed action RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp) in 24.8623ms
+[12:04:45 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.TransactionsController.GetTransactions (RekovaBE-CSharp)'
+[12:04:45 ERR] HTTP GET /api/transactions responded 500 in 28.6550 ms
+[12:04:45 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/transactions?limit=100 - 500 null application/json; charset=utf-8 30.4513ms
+[12:15:43 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/health - null null
+[12:15:43 INF] Executing endpoint 'HTTP: GET /api/health'
+[12:15:43 INF] Setting HTTP status code 200.
+[12:15:43 INF] Writing value of type '<>f__AnonymousType20`4' as Json.
+[12:15:43 INF] Executed endpoint 'HTTP: GET /api/health'
+[12:15:43 INF] HTTP GET /api/health responded 200 in 40.5108 ms
+[12:15:43 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/health - 200 null application/json; charset=utf-8 42.402ms
+[12:16:24 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[12:16:24 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:16:24 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[12:16:24 INF] Login attempt for username: michael.mwai
+[12:16:24 INF] Executed DbCommand (1ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[12:16:24 INF] User found: michael.mwai, Role: officer, IsActive: True
+[12:16:24 INF] Password verification result: False
+[12:16:24 WRN] Login failed: Invalid password for user michael.mwai
+[12:16:24 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:16:24 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 119.2795ms
+[12:16:24 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:16:24 INF] HTTP POST /api/auth/login responded 401 in 121.5220 ms
+[12:16:24 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 122.6934ms
+[12:16:25 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[12:16:25 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:16:25 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[12:16:25 INF] Login attempt for username: michael.mwai
+[12:16:25 INF] Executed DbCommand (1ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[12:16:25 INF] User found: michael.mwai, Role: officer, IsActive: True
+[12:16:25 INF] Password verification result: False
+[12:16:25 WRN] Login failed: Invalid password for user michael.mwai
+[12:16:25 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:16:25 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 112.3784ms
+[12:16:25 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:16:25 INF] HTTP POST /api/auth/login responded 401 in 113.4797 ms
+[12:16:25 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 114.3231ms
+[12:17:09 INF] Request starting HTTP/1.1 POST http://localhost:5000/api/auth/login - application/json 52
+[12:17:09 INF] Executing endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:17:09 INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[RekovaBE_CSharp.Models.DTOs.ApiResponseDto`1[RekovaBE_CSharp.Models.DTOs.LoginResponseDto]]] Login(RekovaBE_CSharp.Models.DTOs.LoginRequestDto) on controller RekovaBE_CSharp.Controllers.AuthController (RekovaBE-CSharp).
+[12:17:09 INF] Login attempt for username: michael.mwai
+[12:17:09 INF] Executed DbCommand (1ms) [Parameters=[@__request_Username_0='?' (Size = 50)], CommandType='Text', CommandTimeout='30']
+SELECT `u`.`id`, `u`.`created_at`, `u`.`department`, `u`.`email`, `u`.`employee_id`, `u`.`first_name`, `u`.`is_active`, `u`.`last_login`, `u`.`last_name`, `u`.`loan_type`, `u`.`password_hash`, `u`.`phone`, `u`.`role`, `u`.`updated_at`, `u`.`username`
+FROM `users` AS `u`
+WHERE `u`.`username` = @__request_Username_0
+LIMIT 1
+[12:17:09 INF] User found: michael.mwai, Role: officer, IsActive: True
+[12:17:09 INF] Password verification result: False
+[12:17:09 WRN] Login failed: Invalid password for user michael.mwai
+[12:17:09 INF] Executing UnauthorizedObjectResult, writing value of type 'RekovaBE_CSharp.Models.DTOs.ApiResponseDto'.
+[12:17:09 INF] Executed action RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp) in 105.7995ms
+[12:17:09 INF] Executed endpoint 'RekovaBE_CSharp.Controllers.AuthController.Login (RekovaBE-CSharp)'
+[12:17:09 INF] HTTP POST /api/auth/login responded 401 in 106.8613 ms
+[12:17:09 INF] Request finished HTTP/1.1 POST http://localhost:5000/api/auth/login - 401 null application/json; charset=utf-8 107.6189ms
+[12:17:40 INF] Request starting HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20 - null null
+[12:17:40 INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+ ---> Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(String encodedJson)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+   --- End of inner exception stack trace ---
+[12:17:40 INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+[12:17:40 INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+[12:17:40 INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+[12:17:40 INF] AuthenticationScheme: Bearer was challenged.
+[12:17:40 INF] HTTP GET /api/promises responded 401 in 7.9696 ms
+[12:17:40 INF] Request finished HTTP/1.1 GET http://localhost:5000/api/promises?status=PENDING&limit=20 - 401 0 null 9.5673ms
+[12:21:35 INF] Request starting HTTP/1.1 HEAD http://localhost:5000/api/health - null null
+[12:21:35 INF] Executing endpoint '405 HTTP Method Not Supported'
+[12:21:35 INF] Executed endpoint '405 HTTP Method Not Supported'
+[12:21:35 INF] HTTP HEAD /api/health responded 405 in 1.2930 ms
+[12:21:35 INF] Request finished HTTP/1.1 HEAD http://localhost:5000/api/health - 405 null null 2.9342ms
