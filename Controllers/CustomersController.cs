@@ -31,71 +31,13 @@ namespace RekovaBE_CSharp.Controllers
 
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out var id) ? id : 0;
         }
 
         private string GetCurrentUserRole()
         {
             return User.FindFirst(ClaimTypes.Role)?.Value ?? "officer";
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<ApiResponseDto<PaginationDto<CustomerDto>>>> GetCustomers(
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 50)
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                var role = GetCurrentUserRole();
-
-                IQueryable<Customer> query = _context.Customers
-                    .Include(c => c.AssignedToUser)
-                    .Where(c => c.IsActive == true);  // FIXED: Compare with true
-
-                // Officers can only see their assigned customers
-                if (role == "officer")
-                {
-                    query = query.Where(c => c.AssignedToUserId == userId);
-                }
-
-                var total = await query.CountAsync();  // FIXED: 'total' is now defined
-
-                var customers = await query
-                    .OrderBy(c => c.Name)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
-
-                var customerDtos = customers.Select(c => MapToDto(c)).ToList();
-
-                var pagination = new PaginationDto<CustomerDto>
-                {
-                    Items = customerDtos,
-                    TotalCount = total,  // FIXED: Now using the defined variable
-                    Page = page,
-                    PageSize = pageSize,
-                    TotalPages = (int)Math.Ceiling(total / (double)pageSize)  // FIXED: Now using the defined variable
-                };
-
-                await _activityService.LogActivityAsync(userId, "CUSTOMER_LIST_VIEW", "Viewed customer list");
-
-                return Ok(new ApiResponseDto<PaginationDto<CustomerDto>>
-                {
-                    Success = true,
-                    Message = "Customers retrieved successfully",
-                    Data = pagination
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error getting customers: {ex.Message}");
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = "Internal server error"
-                });
-            }
         }
 
         [HttpGet("assigned-to-me")]
@@ -104,31 +46,168 @@ namespace RekovaBE_CSharp.Controllers
             try
             {
                 var userId = GetCurrentUserId();
+                var role = GetCurrentUserRole();
+                
+                if (userId == 0)
+                {
+                    return Unauthorized(new ApiResponseDto
+                    {
+                        Success = false,
+                        Message = "Invalid user ID in token"
+                    });
+                }
 
-                var customers = await _context.Customers
-                    .Include(c => c.AssignedToUser)
-                    .Where(c => c.AssignedToUserId == userId && c.IsActive == true)  // FIXED: Compare with true
+                _logger.LogInformation($"Fetching customers for user: {userId} with role: {role}");
+
+                IQueryable<Customer> query = _context.Customers;
+
+                if (role == "officer")
+                {
+                    query = query.Where(c => c.AssignedToUserId == userId);
+                }
+
+                var customers = await query
+                    .Where(c => c.IsActive == true)
                     .OrderBy(c => c.Name)
+                    .Select(c => new CustomerDto
+                    {
+                        Id = c.Id,
+                        CustomerInternalId = c.CustomerInternalId ?? string.Empty,
+                        CustomerId = c.CustomerId ?? string.Empty,
+                        PhoneNumber = c.PhoneNumber ?? string.Empty,
+                        Name = c.Name ?? "Unknown",
+                        AccountNumber = c.AccountNumber ?? string.Empty,
+                        LoanBalance = c.LoanBalance,
+                        Arrears = c.Arrears,
+                        TotalRepayments = c.TotalRepayments,
+                        Email = c.Email,
+                        NationalId = c.NationalId,
+                        LastPaymentDate = c.LastPaymentDate,
+                        LastContactDate = c.LastContactDate,
+                        Status = c.Status ?? "ACTIVE",
+                        LoanType = c.LoanType,
+                        IsActive = c.IsActive == true,
+                        AssignedToUserId = c.AssignedToUserId,
+                        CreatedAt = c.CreatedAt ?? DateTime.UtcNow,
+                        UpdatedAt = c.UpdatedAt ?? DateTime.UtcNow
+                    })
                     .ToListAsync();
 
-                var customerDtos = customers.Select(c => MapToDto(c)).ToList();
+                _logger.LogInformation($"Found {customers.Count} customers for user {userId}");
 
-                await _activityService.LogActivityAsync(userId, "MY_CUSTOMERS_VIEW", "Viewed assigned customers");
+                try
+                {
+                    await _activityService.LogActivityAsync(userId, "MY_CUSTOMERS_VIEW", $"Viewed assigned customers. Found {customers.Count} customers");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning($"Failed to log activity: {ex.Message}");
+                }
 
                 return Ok(new ApiResponseDto<List<CustomerDto>>
                 {
                     Success = true,
                     Message = "Assigned customers retrieved successfully",
-                    Data = customerDtos
+                    Data = customers
                 });
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error getting assigned customers: {ex.Message}");
+                _logger.LogError($"Stack trace: {ex.StackTrace}");
                 return StatusCode(500, new ApiResponseDto
                 {
                     Success = false,
-                    Message = "Internal server error"
+                    Message = $"Internal server error: {ex.Message}"
+                });
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ApiResponseDto<PaginationDto<CustomerDto>>>> GetCustomers(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 50,
+            [FromQuery] string? search = null)
+        {
+            try
+            {
+                var userId = GetCurrentUserId();
+                var role = GetCurrentUserRole();
+
+                _logger.LogInformation($"GetCustomers called by user {userId} with role {role}");
+
+                IQueryable<Customer> query = _context.Customers;
+
+                if (role == "officer")
+                {
+                    query = query.Where(c => c.AssignedToUserId == userId);
+                }
+
+                query = query.Where(c => c.IsActive == true);
+
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    query = query.Where(c => c.Name.Contains(search) || 
+                                             c.PhoneNumber.Contains(search) || 
+                                             c.CustomerId.Contains(search));
+                }
+
+                var total = await query.CountAsync();
+
+                var customers = await query
+                    .OrderBy(c => c.Name)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(c => new CustomerDto
+                    {
+                        Id = c.Id,
+                        CustomerInternalId = c.CustomerInternalId ?? string.Empty,
+                        CustomerId = c.CustomerId ?? string.Empty,
+                        PhoneNumber = c.PhoneNumber ?? string.Empty,
+                        Name = c.Name ?? "Unknown",
+                        AccountNumber = c.AccountNumber ?? string.Empty,
+                        LoanBalance = c.LoanBalance,
+                        Arrears = c.Arrears,
+                        TotalRepayments = c.TotalRepayments,
+                        Email = c.Email,
+                        NationalId = c.NationalId,
+                        LastPaymentDate = c.LastPaymentDate,
+                        LastContactDate = c.LastContactDate,
+                        Status = c.Status ?? "ACTIVE",
+                        LoanType = c.LoanType,
+                        IsActive = c.IsActive == true,
+                        AssignedToUserId = c.AssignedToUserId,
+                        CreatedAt = c.CreatedAt ?? DateTime.UtcNow,
+                        UpdatedAt = c.UpdatedAt ?? DateTime.UtcNow
+                    })
+                    .ToListAsync();
+
+                _logger.LogInformation($"Retrieved {customers.Count} customers out of {total} total");
+
+                var result = new PaginationDto<CustomerDto>
+                {
+                    Items = customers,
+                    TotalCount = total,
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalPages = (int)Math.Ceiling(total / (double)pageSize)
+                };
+
+                return Ok(new ApiResponseDto<PaginationDto<CustomerDto>>
+                {
+                    Success = true,
+                    Message = "Customers retrieved successfully",
+                    Data = result
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error getting customers: {ex.Message}");
+                _logger.LogError($"Stack trace: {ex.StackTrace}");
+                return StatusCode(500, new ApiResponseDto
+                {
+                    Success = false,
+                    Message = $"Internal server error: {ex.Message}"
                 });
             }
         }
@@ -139,8 +218,30 @@ namespace RekovaBE_CSharp.Controllers
             try
             {
                 var customer = await _context.Customers
-                    .Include(c => c.AssignedToUser)
-                    .FirstOrDefaultAsync(c => c.Id == id && c.IsActive == true);  // FIXED: Compare with true
+                    .Where(c => c.Id == id)
+                    .Select(c => new CustomerDto
+                    {
+                        Id = c.Id,
+                        CustomerInternalId = c.CustomerInternalId ?? string.Empty,
+                        CustomerId = c.CustomerId ?? string.Empty,
+                        PhoneNumber = c.PhoneNumber ?? string.Empty,
+                        Name = c.Name ?? "Unknown",
+                        AccountNumber = c.AccountNumber ?? string.Empty,
+                        LoanBalance = c.LoanBalance,
+                        Arrears = c.Arrears,
+                        TotalRepayments = c.TotalRepayments,
+                        Email = c.Email,
+                        NationalId = c.NationalId,
+                        LastPaymentDate = c.LastPaymentDate,
+                        LastContactDate = c.LastContactDate,
+                        Status = c.Status ?? "ACTIVE",
+                        LoanType = c.LoanType,
+                        IsActive = c.IsActive == true,
+                        AssignedToUserId = c.AssignedToUserId,
+                        CreatedAt = c.CreatedAt ?? DateTime.UtcNow,
+                        UpdatedAt = c.UpdatedAt ?? DateTime.UtcNow
+                    })
+                    .FirstOrDefaultAsync();
 
                 if (customer == null)
                 {
@@ -151,15 +252,11 @@ namespace RekovaBE_CSharp.Controllers
                     });
                 }
 
-                var userId = GetCurrentUserId();
-                await _activityService.LogActivityAsync(userId, "CUSTOMER_VIEW", 
-                    $"Viewed customer: {customer.Name}", "CUSTOMER", id, id);
-
                 return Ok(new ApiResponseDto<CustomerDto>
                 {
                     Success = true,
                     Message = "Customer retrieved successfully",
-                    Data = MapToDto(customer)
+                    Data = customer
                 });
             }
             catch (Exception ex)
@@ -179,32 +276,31 @@ namespace RekovaBE_CSharp.Controllers
             try
             {
                 var userId = GetCurrentUserId();
-                
-                // Validate userId
-                if (userId == 0)
-                {
-                    _logger.LogWarning("GetDashboardStats: Unable to extract user ID from token claims");
-                    return Unauthorized(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Invalid authentication token - User ID not found"
-                    });
-                }
-                
                 var role = GetCurrentUserRole();
 
-                IQueryable<Customer> query = _context.Customers.Where(c => c.IsActive == true);  // FIXED: Compare with true
+                _logger.LogInformation($"Getting dashboard stats for user {userId} with role {role}");
 
-                // Officers only see stats for their assigned customers
+                IQueryable<Customer> query = _context.Customers;
+                IQueryable<Transaction> transactionQuery = _context.Transactions;
+
                 if (role == "officer")
                 {
                     query = query.Where(c => c.AssignedToUserId == userId);
+                    transactionQuery = transactionQuery.Where(t => t.InitiatedByUserId == userId);
                 }
+
+                query = query.Where(c => c.IsActive == true);
 
                 var totalCustomers = await query.CountAsync();
                 var totalLoanBalance = await query.SumAsync(c => c.LoanBalance);
                 var totalArrears = await query.SumAsync(c => c.Arrears);
                 var activeLoans = await query.CountAsync(c => c.LoanBalance > 0);
+                
+                var totalCollected = await transactionQuery
+                    .Where(t => t.Status == "SUCCESS" || t.Status == "COMPLETED")
+                    .SumAsync(t => (decimal?)t.Amount) ?? 0;
+
+                var collectionRate = totalArrears > 0 ? (totalCollected / totalArrears) * 100 : 0;
 
                 var stats = new DashboardStatsDto
                 {
@@ -212,14 +308,10 @@ namespace RekovaBE_CSharp.Controllers
                     TotalLoanBalance = totalLoanBalance,
                     TotalArrears = totalArrears,
                     ActiveLoans = activeLoans,
-                    CollectionRate = totalArrears > 0 
-                        ? (await _context.Transactions
-                            .Where(t => t.Status == "SUCCESS")
-                            .SumAsync(t => (decimal?)t.Amount) ?? 0) / totalArrears * 100 
-                        : 0
+                    CollectionRate = Math.Round(collectionRate, 2)
                 };
 
-                await _activityService.LogActivityAsync(userId, "DASHBOARD_VIEW", "Viewed dashboard stats");
+                _logger.LogInformation($"Dashboard stats: TotalCustomers={totalCustomers}, TotalLoanBalance={totalLoanBalance}, TotalArrears={totalArrears}");
 
                 return Ok(new ApiResponseDto<DashboardStatsDto>
                 {
@@ -231,232 +323,11 @@ namespace RekovaBE_CSharp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Error getting dashboard stats: {ex.Message}");
+                _logger.LogError($"Stack trace: {ex.StackTrace}");
                 return StatusCode(500, new ApiResponseDto
                 {
                     Success = false,
-                    Message = "Internal server error"
-                });
-            }
-        }
-
-        private CustomerDto MapToDto(Customer customer)
-        {
-            return new CustomerDto
-            {
-                Id = customer.Id,
-                CustomerInternalId = customer.CustomerInternalId ?? string.Empty,
-                CustomerId = customer.CustomerId ?? string.Empty,
-                PhoneNumber = customer.PhoneNumber ?? string.Empty,
-                Name = customer.Name ?? string.Empty,
-                AccountNumber = customer.AccountNumber ?? string.Empty,
-                LoanBalance = customer.LoanBalance,
-                Arrears = customer.Arrears,
-                TotalRepayments = customer.TotalRepayments,
-                Email = customer.Email,
-                NationalId = customer.NationalId,
-                LastPaymentDate = customer.LastPaymentDate,
-                LastContactDate = customer.LastContactDate,
-                Status = customer.Status,
-                IsActive = customer.IsActive == true,  // Convert bool? to bool
-                AssignedToUserId = customer.AssignedToUserId,
-                AssignedToUserName = customer.AssignedToUser?.Username,
-                LoanType = customer.LoanType,
-                CreatedAt = customer.CreatedAt ?? DateTime.UtcNow,
-                UpdatedAt = customer.UpdatedAt ?? DateTime.UtcNow
-            };
-        }
-
-        // ==================== CUSTOMER CRUD OPERATIONS ====================
-
-        [HttpPost]
-        public async Task<ActionResult<ApiResponseDto<CustomerDto>>> CreateCustomer([FromBody] CreateCustomerDto request)
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                var role = GetCurrentUserRole();
-
-                // Only admins and supervisors can create customers
-                if (role != "admin" && role != "supervisor")
-                {
-                    return Forbid();
-                }
-
-                // Validation
-                if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.PhoneNumber))
-                {
-                    return BadRequest(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Name and phone number are required"
-                    });
-                }
-
-                // Check if customer already exists
-                var existing = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.PhoneNumber == request.PhoneNumber || c.CustomerId == request.CustomerId);
-
-                if (existing != null)
-                {
-                    return BadRequest(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Customer with this phone number or ID already exists"
-                    });
-                }
-
-                var customer = new Customer
-                {
-                    CustomerInternalId = request.CustomerInternalId ?? $"CUS_{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}",
-                    CustomerId = request.CustomerId ?? request.PhoneNumber,
-                    PhoneNumber = request.PhoneNumber,
-                    Name = request.Name,
-                    AccountNumber = request.AccountNumber,
-                    Email = request.Email?.ToLower(),
-                    NationalId = request.NationalId,
-                    LoanBalance = request.LoanBalance,
-                    Arrears = request.Arrears,
-                    LoanType = request.LoanType ?? "Standard",
-                    Status = "ACTIVE",
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                };
-
-                _context.Customers.Add(customer);
-                await _context.SaveChangesAsync();
-
-                await _activityService.LogActivityAsync(userId, "CUSTOMER_CREATE",
-                    $"Created customer: {customer.Name}");
-
-                return Ok(new ApiResponseDto<CustomerDto>
-                {
-                    Success = true,
-                    Message = "Customer created successfully",
-                    Data = MapToDto(customer)
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error creating customer: {ex.Message}");
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = "Internal server error"
-                });
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ApiResponseDto<CustomerDto>>> UpdateCustomer(int id, [FromBody] UpdateCustomerDto request)
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                var role = GetCurrentUserRole();
-
-                // Only admins and supervisors can update customers
-                if (role != "admin" && role != "supervisor")
-                {
-                    return Forbid();
-                }
-
-                var customer = await _context.Customers.FindAsync(id);
-                if (customer == null)
-                {
-                    return NotFound(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Customer not found"
-                    });
-                }
-
-                // Update fields
-                if (!string.IsNullOrEmpty(request.Name))
-                    customer.Name = request.Name;
-                if (!string.IsNullOrEmpty(request.PhoneNumber))
-                    customer.PhoneNumber = request.PhoneNumber;
-                if (!string.IsNullOrEmpty(request.Email))
-                    customer.Email = request.Email.ToLower();
-                if (!string.IsNullOrEmpty(request.AccountNumber))
-                    customer.AccountNumber = request.AccountNumber;
-                if (request.LoanBalance.HasValue && request.LoanBalance.Value >= 0)
-                    customer.LoanBalance = request.LoanBalance.Value;
-                if (request.Arrears.HasValue && request.Arrears.Value >= 0)
-                    customer.Arrears = request.Arrears.Value;
-                if (request.AssignedToUserId.HasValue && request.AssignedToUserId.Value > 0)
-                    customer.AssignedToUserId = request.AssignedToUserId.Value;
-                if (request.IsActive.HasValue)
-                    customer.IsActive = request.IsActive.Value;
-
-                customer.UpdatedAt = DateTime.UtcNow;
-                _context.Customers.Update(customer);
-                await _context.SaveChangesAsync();
-
-                await _activityService.LogActivityAsync(userId, "CUSTOMER_UPDATE",
-                    $"Updated customer: {customer.Name}");
-
-                return Ok(new ApiResponseDto<CustomerDto>
-                {
-                    Success = true,
-                    Message = "Customer updated successfully",
-                    Data = MapToDto(customer)
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error updating customer: {ex.Message}");
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = "Internal server error"
-                });
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ApiResponseDto>> DeleteCustomer(int id)
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                var role = GetCurrentUserRole();
-
-                // Only admins can delete customers
-                if (role != "admin")
-                {
-                    return Forbid();
-                }
-
-                var customer = await _context.Customers.FindAsync(id);
-                if (customer == null)
-                {
-                    return NotFound(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Customer not found"
-                    });
-                }
-
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
-
-                await _activityService.LogActivityAsync(userId, "CUSTOMER_DELETE",
-                    $"Deleted customer: {customer.Name}");
-
-                return Ok(new ApiResponseDto
-                {
-                    Success = true,
-                    Message = "Customer deleted successfully"
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error deleting customer: {ex.Message}");
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = "Internal server error"
+                    Message = $"Internal server error: {ex.Message}"
                 });
             }
         }
@@ -467,8 +338,30 @@ namespace RekovaBE_CSharp.Controllers
             try
             {
                 var customer = await _context.Customers
-                    .Include(c => c.AssignedToUser)
-                    .FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber && c.IsActive == true);
+                    .Where(c => c.PhoneNumber == phoneNumber && c.IsActive == true)
+                    .Select(c => new CustomerDto
+                    {
+                        Id = c.Id,
+                        CustomerInternalId = c.CustomerInternalId ?? string.Empty,
+                        CustomerId = c.CustomerId ?? string.Empty,
+                        PhoneNumber = c.PhoneNumber ?? string.Empty,
+                        Name = c.Name ?? "Unknown",
+                        AccountNumber = c.AccountNumber ?? string.Empty,
+                        LoanBalance = c.LoanBalance,
+                        Arrears = c.Arrears,
+                        TotalRepayments = c.TotalRepayments,
+                        Email = c.Email,
+                        NationalId = c.NationalId,
+                        LastPaymentDate = c.LastPaymentDate,
+                        LastContactDate = c.LastContactDate,
+                        Status = c.Status ?? "ACTIVE",
+                        LoanType = c.LoanType,
+                        IsActive = c.IsActive == true,
+                        AssignedToUserId = c.AssignedToUserId,
+                        CreatedAt = c.CreatedAt ?? DateTime.UtcNow,
+                        UpdatedAt = c.UpdatedAt ?? DateTime.UtcNow
+                    })
+                    .FirstOrDefaultAsync();
 
                 if (customer == null)
                 {
@@ -483,7 +376,7 @@ namespace RekovaBE_CSharp.Controllers
                 {
                     Success = true,
                     Message = "Customer retrieved successfully",
-                    Data = MapToDto(customer)
+                    Data = customer
                 });
             }
             catch (Exception ex)

@@ -5,11 +5,11 @@ using Serilog;
 using System.Text;
 using RekovaBE_CSharp.Data;
 using RekovaBE_CSharp.Services;
+using RekovaBE_CSharp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ==================== ENVIRONMENT VARIABLE SETUP ====================
-// Load connection string from environment variables
 var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "127.0.0.1";
 var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
 var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "rekovadb";
@@ -18,7 +18,6 @@ var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "IbraKonat
 
 var connectionString = $"Server={dbServer};Port={dbPort};Database={dbName};User={dbUser};Password={dbPassword};SslMode=None;AllowPublicKeyRetrieval=True;";
 
-// Override with explicit connection string if provided
 var explicitConnStr = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 if (!string.IsNullOrEmpty(explicitConnStr))
 {
@@ -37,10 +36,8 @@ builder.Host.UseSerilog();
 // ==================== DATABASE SETUP ====================
 Log.Information("Using MySQL connection to database: {Database}", dbName);
 
-// Configure DbContext with SHA256 support
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    // Use MySQL 8.0 instead of AutoDetect to avoid connection during startup
     options.UseMySql(connectionString, ServerVersion.Parse("8.0.0"),
         mysqlOptions =>
         {
@@ -67,11 +64,9 @@ builder.Services.AddCors(options =>
 });
 
 // ==================== AUTHENTICATION SETUP ====================
-// Generate default JWT key if not provided
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
 if (string.IsNullOrEmpty(jwtKey))
 {
-    // Use a default key for development (MUST be overridden in production)
     jwtKey = "RekovaBE-CSharp-Development-Key-Change-In-Production-12345678901234567890";
     Log.Warning("JWT_KEY environment variable not set. Using default development key. CHANGE THIS IN PRODUCTION!");
 }
@@ -84,7 +79,6 @@ if (jwtKey.Length < 32)
 var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "RekovaAPI";
 var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "RekovaClient";
 
-// Add JWT configuration to services for AuthService to access
 builder.Services.Configure<JwtConfigOptions>(options =>
 {
     options.Key = jwtKey;
@@ -117,14 +111,18 @@ builder.Services
         };
     });
 
-// ==================== AUTHORIZATION SETUP ====================
 builder.Services.AddAuthorization();
 
 // ==================== DEPENDENCY INJECTION ====================
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
-builder.Services.AddScoped<IDbMigrationService, DbMigrationService>();
+builder.Services.AddScoped<IMpesaService, MpesaService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddHttpClient<IMpesaService, MpesaService>();
+
+// Add background services
+builder.Services.AddHostedService<TransactionExpirationService>();
 
 // ==================== CONTROLLERS AND SWAGGER ====================
 builder.Services.AddControllers();
@@ -138,7 +136,6 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Loan Collection Management System"
     });
     
-    // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -169,18 +166,18 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // ==================== DATABASE MIGRATION ====================
-try
+using (var scope = app.Services.CreateScope())
 {
-    using (var scope = app.Services.CreateScope())
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
     {
-        var migrationService = scope.ServiceProvider.GetRequiredService<IDbMigrationService>();
-        await migrationService.MigrateAsync();
+        await db.Database.MigrateAsync();
         Log.Information("✓ Database migration completed successfully");
     }
-}
-catch (Exception ex)
-{
-    Log.Warning(ex, "Database migration warning (non-fatal): {Message}. The app will continue but some features may not work properly. Make sure DB_PASSWORD and other DB_* environment variables are set.", ex.Message);
+    catch (Exception ex)
+    {
+        Log.Error(ex, "Database migration failed. Please ensure MySQL is running and connection string is correct.");
+    }
 }
 
 // ==================== MIDDLEWARE SETUP ====================
@@ -197,7 +194,6 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ==================== CUSTOM MIDDLEWARE ====================
 // Global error handling middleware
 app.Use(async (context, next) =>
 {
@@ -237,22 +233,7 @@ app.MapGet("/api/health", () =>
 
 app.MapControllers();
 
-// ==================== DATABASE MIGRATION ====================
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    try
-    {
-        db.Database.Migrate();
-        Log.Information("Database migration completed successfully");
-    }
-    catch (Exception ex)
-    {
-        Log.Error(ex, "Database migration failed. Please ensure MySQL is running and connection string is correct.");
-    }
-}
-
 // ==================== RUN APP ====================
 var port = builder.Configuration.GetValue<int>("ApiSettings:Port");
 Log.Information("Starting application on port {Port}", port);
-app.Run($"http://0.0.0.0:{port}");
+await app.RunAsync($"http://0.0.0.0:{port}");

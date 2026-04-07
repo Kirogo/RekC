@@ -31,7 +31,8 @@ namespace RekovaBE_CSharp.Controllers
 
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out var id) ? id : 0;
         }
 
         [HttpGet("customer/{customerId}")]
@@ -41,7 +42,6 @@ namespace RekovaBE_CSharp.Controllers
             {
                 var userId = GetCurrentUserId();
 
-                // Verify customer exists
                 var customer = await _context.Customers.FindAsync(customerId);
                 if (customer == null)
                 {
@@ -62,7 +62,7 @@ namespace RekovaBE_CSharp.Controllers
                         CustomerId = c.CustomerId,
                         Text = c.CommentText,
                         CreatedBy = c.User != null ? 
-                            $"{c.User.FirstName} {c.User.LastName}".Trim() : "System",
+                            (c.User.FirstName + " " + c.User.LastName).Trim() : "System",
                         CreatedAt = c.CreatedAt,
                         UpdatedAt = c.UpdatedAt
                     })
@@ -96,7 +96,6 @@ namespace RekovaBE_CSharp.Controllers
             {
                 var userId = GetCurrentUserId();
 
-                // Verify customer exists
                 var customer = await _context.Customers.FindAsync(customerId);
                 if (customer == null)
                 {
@@ -107,7 +106,6 @@ namespace RekovaBE_CSharp.Controllers
                     });
                 }
 
-                // Validation
                 if (string.IsNullOrWhiteSpace(request.Text))
                 {
                     return BadRequest(new ApiResponseDto
@@ -117,22 +115,24 @@ namespace RekovaBE_CSharp.Controllers
                     });
                 }
 
+                var user = await _context.Users.FindAsync(userId);
+                var authorName = user != null ? $"{user.FirstName} {user.LastName}".Trim() : "System";
+                if (string.IsNullOrWhiteSpace(authorName)) authorName = user?.Username ?? "System";
+
                 var comment = new Comment
                 {
                     CustomerId = customerId,
                     CommentText = request.Text.Trim(),
                     UserId = userId,
+                    Author = authorName,
+                    CustomerName = customer.Name,
+                    CommentType = "follow_up",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
 
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync();
-
-                // Reload to get user info
-                await _context.Entry(comment)
-                    .Reference(c => c.User)
-                    .LoadAsync();
 
                 await _activityService.LogActivityAsync(userId, "COMMENT_CREATE",
                     $"Added comment to customer {customerId}");
@@ -142,8 +142,7 @@ namespace RekovaBE_CSharp.Controllers
                     Id = comment.Id,
                     CustomerId = comment.CustomerId,
                     Text = comment.CommentText,
-                    CreatedBy = comment.User != null ?
-                        $"{comment.User.FirstName} {comment.User.LastName}".Trim() : "System",
+                    CreatedBy = authorName,
                     CreatedAt = comment.CreatedAt,
                     UpdatedAt = comment.UpdatedAt
                 };

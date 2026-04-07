@@ -1,4 +1,3 @@
-// Models/DTOs/TransactionDtos.cs
 namespace RekovaBE_CSharp.Models.DTOs
 {
     public class TransactionDto
@@ -7,7 +6,7 @@ namespace RekovaBE_CSharp.Models.DTOs
         public string TransactionInternalId { get; set; } = string.Empty;
         public string TransactionId { get; set; } = string.Empty;
         public int CustomerId { get; set; }
-        public string? CustomerName { get; set; }  // ADD THIS
+        public string? CustomerName { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public string Status { get; set; } = string.Empty;
@@ -15,6 +14,7 @@ namespace RekovaBE_CSharp.Models.DTOs
         public string? MpesaReceiptNumber { get; set; }
         public DateTime? ProcessedAt { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string? InitiatedBy { get; set; }
     }
 
     public class InitiatePaymentDto

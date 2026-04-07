@@ -14,15 +14,23 @@ namespace RekovaBE_CSharp.Models
         [Column("customer_id")]
         public int CustomerId { get; set; }
 
-        [Column("user_id")]
+        [Column("author_id")]
         public int? UserId { get; set; }
 
-        [Column("comment_text")]  // FIXED: Property name matches column
+        [Column("comment_text")]
         public string? CommentText { get; set; }
 
         [Column("comment_type")]
         [StringLength(50)]
-        public string? CommentType { get; set; } = "GENERAL";
+        public string? CommentType { get; set; }
+
+        [Column("author")]
+        [StringLength(100)]
+        public string? Author { get; set; }
+
+        [Column("customer_name")]
+        [StringLength(200)]
+        public string? CustomerName { get; set; }
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }

@@ -1,3 +1,4 @@
+// Controllers/ReportsController.cs
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -313,28 +314,29 @@ namespace RekovaBE_CSharp.Controllers
 
                 // Get all officers with their performance metrics
                 var officers = await _context.Users
-                    .Where(u => u.Role == "officer" && u.IsActive == true)
-                    .Select(u => new
-                    {
-                        u.Id,
-                        FullName = $"{u.FirstName} {u.LastName}".Trim(),
-                        u.Department,
-                        u.LastLogin,
-                        CustomersAssigned = u.AssignedCustomers.Count(),
-                        TotalArrears = u.AssignedCustomers.Sum(c => c.Arrears),
-                        TotalBalance = u.AssignedCustomers.Sum(c => c.LoanBalance),
-                        TransactionCount = _context.Transactions
-                            .Count(t => t.InitiatedByUserId == u.Id),
-                        SuccessfulTransactions = _context.Transactions
-                            .Count(t => t.InitiatedByUserId == u.Id && 
-                                (t.Status == "COMPLETED" || t.Status == "SUCCESS")),
-                        TotalCollected = _context.Transactions
-                            .Where(t => t.InitiatedByUserId == u.Id &&
-                                (t.Status == "COMPLETED" || t.Status == "SUCCESS"))
-                            .Sum(t => (decimal?)t.Amount) ?? 0m
-                    })
-                    .OrderByDescending(o => o.TotalCollected)
-                    .ToListAsync();
+    .Where(u => u.Role == "officer" && u.IsActive == true)
+    .Select(u => new
+    {
+        u.Id,
+        FullName = (u.FirstName != null ? u.FirstName + " " : "") + (u.LastName ?? ""),
+        FullNameTrimmed = (u.FirstName ?? "" + " " + u.LastName ?? "").Trim(),
+        u.Department,
+        u.LastLogin,
+        CustomersAssigned = u.AssignedCustomers != null ? u.AssignedCustomers.Count() : 0,
+        TotalArrears = u.AssignedCustomers != null ? u.AssignedCustomers.Sum(c => c.Arrears) : 0,
+        TotalBalance = u.AssignedCustomers != null ? u.AssignedCustomers.Sum(c => c.LoanBalance) : 0,
+        TransactionCount = _context.Transactions
+            .Count(t => t.InitiatedByUserId == u.Id),
+        SuccessfulTransactions = _context.Transactions
+            .Count(t => t.InitiatedByUserId == u.Id && 
+                (t.Status == "COMPLETED" || t.Status == "SUCCESS")),
+        TotalCollected = _context.Transactions
+            .Where(t => t.InitiatedByUserId == u.Id &&
+                (t.Status == "COMPLETED" || t.Status == "SUCCESS"))
+            .Sum(t => (decimal?)t.Amount) ?? 0m
+    })
+    .OrderByDescending(o => o.TotalCollected)
+    .ToListAsync();
 
                 var report = new
                 {

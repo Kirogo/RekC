@@ -46,6 +46,7 @@ namespace RekovaBE_CSharp.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Error logging activity: {ex.Message}");
+                // Don't throw - activity logging should not break the main flow
             }
         }
 

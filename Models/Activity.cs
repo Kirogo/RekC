@@ -49,7 +49,21 @@ namespace RekovaBE_CSharp.Models
         [StringLength(50)]
         public string? TransactionStatus { get; set; }
 
-        [Column("created_at")]  // FIXED: Matches database column name
+        [Column("status")]
+        [StringLength(50)]
+        public string? Status { get; set; }
+
+        [Column("error_message")]
+        public string? ErrorMessage { get; set; }
+
+        [Column("duration")]
+        public int? Duration { get; set; }
+
+        [Column("session_id")]
+        [StringLength(100)]
+        public string? SessionId { get; set; }
+
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
         // Navigation properties

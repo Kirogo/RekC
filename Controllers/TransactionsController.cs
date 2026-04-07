@@ -31,7 +31,8 @@ namespace RekovaBE_CSharp.Controllers
 
         private int GetCurrentUserId()
         {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out var id) ? id : 0;
         }
 
         private string GetCurrentUserRole()
@@ -40,11 +41,9 @@ namespace RekovaBE_CSharp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponseDto<PaginationDto<TransactionDto>>>> GetTransactions(
-            [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 50,
-            [FromQuery] string? status = null,
+        public async Task<ActionResult<ApiResponseDto<List<TransactionDto>>>> GetTransactions(
             [FromQuery] int? customerId = null,
+            [FromQuery] int limit = 10,
             [FromQuery] string? sort = "-createdAt")
         {
             try
@@ -52,116 +51,19 @@ namespace RekovaBE_CSharp.Controllers
                 var userId = GetCurrentUserId();
                 var role = GetCurrentUserRole();
 
-                IQueryable<Transaction> query = _context.Transactions
-                    .Include(t => t.Customer)
-                    .AsQueryable();
+                IQueryable<Transaction> query = _context.Transactions;
 
-                // Filter by customer if provided
                 if (customerId.HasValue)
                 {
                     query = query.Where(t => t.CustomerId == customerId.Value);
                 }
 
-                // Filter by status if provided
-                if (!string.IsNullOrWhiteSpace(status))
-                {
-                    query = query.Where(t => t.Status == status.ToUpper());
-                }
-
-                // Officers can only see their own customers' transactions
                 if (role == "officer")
                 {
                     query = query.Where(t => t.InitiatedByUserId == userId ||
                         _context.Customers.Any(c => c.Id == t.CustomerId && c.AssignedToUserId == userId));
                 }
 
-                var total = await query.CountAsync();
-
-                // Apply sorting
-                if (sort == "-createdAt" || string.IsNullOrEmpty(sort))
-                {
-                    query = query.OrderByDescending(t => t.CreatedAt);
-                }
-                else if (sort == "createdAt")
-                {
-                    query = query.OrderBy(t => t.CreatedAt);
-                }
-                else if (sort == "-amount")
-                {
-                    query = query.OrderByDescending(t => t.Amount);
-                }
-                else if (sort == "amount")
-                {
-                    query = query.OrderBy(t => t.Amount);
-                }
-
-                var transactions = await query
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
-
-                var transactionDtos = transactions.Select(t => MapToDto(t, t.Customer)).ToList();
-
-                var pagination = new PaginationDto<TransactionDto>
-                {
-                    Items = transactionDtos,
-                    TotalCount = total,
-                    Page = page,
-                    PageSize = pageSize,
-                    TotalPages = (int)Math.Ceiling(total / (double)pageSize)
-                };
-
-                await _activityService.LogActivityAsync(userId, "TRANSACTION_LIST_VIEW", "Viewed transactions");
-
-                return Ok(new ApiResponseDto<PaginationDto<TransactionDto>>
-                {
-                    Success = true,
-                    Message = "Transactions retrieved successfully",
-                    Data = pagination
-                });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error getting transactions: {ex.Message}");
-                _logger.LogError($"Stack trace: {ex.StackTrace}");
-                if (ex.InnerException != null)
-                {
-                    _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                }
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = $"Internal server error: {ex.Message}"
-                });
-            }
-        }
-
-        [HttpGet("my-transactions")]
-        public async Task<ActionResult<ApiResponseDto<List<TransactionDto>>>> GetMyTransactions(
-            [FromQuery] int limit = 100,
-            [FromQuery] string? sort = "-createdAt")
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                
-                _logger.LogInformation($"GetMyTransactions: userId={userId}, limit={limit}");
-
-                if (userId == 0)
-                {
-                    _logger.LogWarning("GetMyTransactions: Unable to extract user ID from token");
-                    return Unauthorized(new ApiResponseDto
-                    {
-                        Success = false,
-                        Message = "Invalid authentication token"
-                    });
-                }
-
-                IQueryable<Transaction> query = _context.Transactions
-                    .Include(t => t.Customer)
-                    .Where(t => t.InitiatedByUserId == userId);
-
-                // Apply sorting
                 if (sort == "-createdAt" || string.IsNullOrEmpty(sort))
                 {
                     query = query.OrderByDescending(t => t.CreatedAt);
@@ -175,9 +77,97 @@ namespace RekovaBE_CSharp.Controllers
                     .Take(limit)
                     .ToListAsync();
 
-                var transactionDtos = transactions.Select(t => MapToDto(t, t.Customer)).ToList();
+                // Load customer names separately to avoid null reference issues
+                var customerIds = transactions.Where(t => t.CustomerId.HasValue).Select(t => t.CustomerId.Value).Distinct().ToList();
+                var customers = await _context.Customers
+                    .Where(c => customerIds.Contains(c.Id))
+                    .ToDictionaryAsync(c => c.Id, c => c.Name ?? "Unknown");
 
-                await _activityService.LogActivityAsync(userId, "MY_TRANSACTIONS_VIEW", "Viewed their transactions");
+                var transactionDtos = transactions.Select(t => new TransactionDto
+                {
+                    Id = t.Id,
+                    TransactionInternalId = t.TransactionInternalId ?? string.Empty,
+                    TransactionId = t.TransactionId ?? string.Empty,
+                    CustomerId = t.CustomerId ?? 0,
+                    CustomerName = t.CustomerId.HasValue && customers.ContainsKey(t.CustomerId.Value) ? customers[t.CustomerId.Value] : "Unknown",
+                    PhoneNumber = t.PhoneNumber ?? "",
+                    Amount = t.Amount,
+                    Status = t.Status ?? "PENDING",
+                    PaymentMethod = t.PaymentMethod,
+                    MpesaReceiptNumber = t.MpesaReceiptNumber,
+                    ProcessedAt = t.ProcessedAt,
+                    CreatedAt = t.CreatedAt,
+                    InitiatedBy = t.InitiatedBy ?? "Unknown"
+                }).ToList();
+
+                return Ok(new ApiResponseDto<List<TransactionDto>>
+                {
+                    Success = true,
+                    Message = "Transactions retrieved successfully",
+                    Data = transactionDtos
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error getting transactions: {ex.Message}");
+                return StatusCode(500, new ApiResponseDto
+                {
+                    Success = false,
+                    Message = $"Internal server error: {ex.Message}"
+                });
+            }
+        }
+
+        [HttpGet("my-transactions")]
+        public async Task<ActionResult<ApiResponseDto<List<TransactionDto>>>> GetMyTransactions(
+            [FromQuery] int limit = 100)
+        {
+            try
+            {
+                var userId = GetCurrentUserId();
+                
+                _logger.LogInformation($"GetMyTransactions: userId={userId}, limit={limit}");
+
+                if (userId == 0)
+                {
+                    return Unauthorized(new ApiResponseDto
+                    {
+                        Success = false,
+                        Message = "Invalid authentication token"
+                    });
+                }
+
+                var transactions = await _context.Transactions
+                    .Where(t => t.InitiatedByUserId == userId)
+                    .OrderByDescending(t => t.CreatedAt)
+                    .Take(limit)
+                    .ToListAsync();
+
+                var customerIds = transactions.Where(t => t.CustomerId.HasValue).Select(t => t.CustomerId.Value).Distinct().ToList();
+                var customers = await _context.Customers
+                    .Where(c => customerIds.Contains(c.Id))
+                    .ToDictionaryAsync(c => c.Id, c => c.Name ?? "Unknown");
+
+                var transactionDtos = transactions.Select(t => new TransactionDto
+                {
+                    Id = t.Id,
+                    TransactionInternalId = t.TransactionInternalId ?? string.Empty,
+                    TransactionId = t.TransactionId ?? string.Empty,
+                    CustomerId = t.CustomerId ?? 0,
+                    CustomerName = t.CustomerId.HasValue && customers.ContainsKey(t.CustomerId.Value) ? customers[t.CustomerId.Value] : "Unknown",
+                    PhoneNumber = t.PhoneNumber ?? "",
+                    Amount = t.Amount,
+                    Status = t.Status ?? "PENDING",
+                    PaymentMethod = t.PaymentMethod,
+                    MpesaReceiptNumber = t.MpesaReceiptNumber,
+                    ProcessedAt = t.ProcessedAt,
+                    CreatedAt = t.CreatedAt,
+                    InitiatedBy = t.InitiatedBy ?? "Unknown"
+                }).ToList();
+
+                _logger.LogInformation($"Retrieved {transactionDtos.Count} transactions for user {userId}");
+
+                await _activityService.LogActivityAsync(userId, "MY_TRANSACTIONS_VIEW", $"Viewed their transactions. Found {transactionDtos.Count} transactions");
 
                 return Ok(new ApiResponseDto<List<TransactionDto>>
                 {
@@ -190,10 +180,6 @@ namespace RekovaBE_CSharp.Controllers
             {
                 _logger.LogError($"Error getting my transactions: {ex.Message}");
                 _logger.LogError($"Stack trace: {ex.StackTrace}");
-                if (ex.InnerException != null)
-                {
-                    _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                }
                 return StatusCode(500, new ApiResponseDto
                 {
                     Success = false,
@@ -202,128 +188,56 @@ namespace RekovaBE_CSharp.Controllers
             }
         }
 
-        [HttpGet("export")]
-        public async Task<IActionResult> ExportTransactions(
-            [FromQuery] string? format = "csv",
-            [FromQuery] DateTime? startDate = null,
-            [FromQuery] DateTime? endDate = null)
+        [HttpGet("my-collections")]
+        public async Task<ActionResult<ApiResponseDto<List<object>>>> GetMyCollections()
         {
             try
             {
                 var userId = GetCurrentUserId();
-                var role = GetCurrentUserRole();
-
-                IQueryable<Transaction> query = _context.Transactions
-                    .Include(t => t.Customer)
-                    .Include(t => t.InitiatedByUser)
-                    .AsQueryable();
-
-                // Apply date filters
-                if (startDate.HasValue)
-                {
-                    query = query.Where(t => t.CreatedAt >= startDate.Value);
-                }
-                if (endDate.HasValue)
-                {
-                    var endDateEnd = endDate.Value.AddDays(1);
-                    query = query.Where(t => t.CreatedAt < endDateEnd);
-                }
-
-                // Officers can only see their own transactions
-                if (role == "officer")
-                {
-                    query = query.Where(t => t.InitiatedByUserId == userId);
-                }
-
-                var transactions = await query
-                    .OrderByDescending(t => t.CreatedAt)
-                    .ToListAsync();
-
-                // Generate CSV
-                var csv = new System.Text.StringBuilder();
-                csv.AppendLine("Transaction ID,Date,Time,Customer,Phone,Amount,Status,Payment Method,Receipt Number,Initiated By");
                 
-                foreach (var t in transactions)
+                if (userId == 0)
                 {
-                    csv.AppendLine($"\"{t.TransactionId}\",{t.CreatedAt:yyyy-MM-dd},{t.CreatedAt:HH:mm:ss},\"{t.Customer?.Name ?? "Unknown"}\",{t.PhoneNumber},{t.Amount:N0},{t.Status},{t.PaymentMethod},{t.MpesaReceiptNumber},{t.InitiatedByUser?.Username ?? "System"}");
-                }
-
-                var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
-                var filename = $"transactions_export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
-
-                await _activityService.LogActivityAsync(userId, "TRANSACTIONS_EXPORT", "Exported transactions");
-
-                return File(bytes, "text/csv", filename);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error exporting transactions: {ex.Message}");
-                return StatusCode(500, new ApiResponseDto
-                {
-                    Success = false,
-                    Message = "Internal server error"
-                });
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponseDto<TransactionDto>>> GetTransaction(int id)
-        {
-            try
-            {
-                var userId = GetCurrentUserId();
-                var transaction = await _context.Transactions
-                    .Include(t => t.Customer)
-                    .Include(t => t.InitiatedByUser)
-                    .FirstOrDefaultAsync(t => t.Id == id);
-
-                if (transaction == null)
-                {
-                    return NotFound(new ApiResponseDto
+                    return Unauthorized(new ApiResponseDto
                     {
                         Success = false,
-                        Message = "Transaction not found"
+                        Message = "Invalid user ID"
                     });
                 }
 
-                await _activityService.LogActivityAsync(userId, "TRANSACTION_VIEW", 
-                    $"Viewed transaction {transaction.TransactionId}", "TRANSACTION", id, transaction.CustomerId);
+                var collections = await _context.Transactions
+                    .Where(t => t.InitiatedByUserId == userId && (t.Status == "SUCCESS" || t.Status == "COMPLETED"))
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.TransactionId,
+                        t.Amount,
+                        t.Status,
+                        t.PaymentMethod,
+                        t.MpesaReceiptNumber,
+                        t.CreatedAt
+                    })
+                    .OrderByDescending(t => t.CreatedAt)
+                    .Take(50)
+                    .ToListAsync();
 
-                return Ok(new ApiResponseDto<TransactionDto>
+                _logger.LogInformation($"Retrieved {collections.Count} collections for user {userId}");
+
+                return Ok(new ApiResponseDto<List<object>>
                 {
                     Success = true,
-                    Message = "Transaction retrieved successfully",
-                    Data = MapToDto(transaction, transaction.Customer)
+                    Message = "Collections retrieved successfully",
+                    Data = collections.Cast<object>().ToList()
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error getting transaction: {ex.Message}");
+                _logger.LogError($"Error getting my collections: {ex.Message}");
                 return StatusCode(500, new ApiResponseDto
                 {
                     Success = false,
-                    Message = "Internal server error"
+                    Message = $"Internal server error: {ex.Message}"
                 });
             }
-        }
-
-        private TransactionDto MapToDto(Transaction transaction, Customer? customer = null)
-        {
-            return new TransactionDto
-            {
-                Id = transaction.Id,
-                TransactionInternalId = transaction.TransactionInternalId ?? string.Empty,
-                TransactionId = transaction.TransactionId ?? string.Empty,
-                CustomerId = transaction.CustomerId ?? 0,
-                CustomerName = customer?.Name ?? "Unknown Customer",
-                PhoneNumber = transaction.PhoneNumber ?? "",
-                Amount = transaction.Amount,
-                Status = transaction.Status ?? "PENDING",
-                PaymentMethod = transaction.PaymentMethod,
-                MpesaReceiptNumber = transaction.MpesaReceiptNumber,
-                ProcessedAt = transaction.ProcessedAt,
-                CreatedAt = transaction.CreatedAt
-            };
         }
     }
 }

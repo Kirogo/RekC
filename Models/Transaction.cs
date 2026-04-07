@@ -27,7 +27,7 @@ namespace RekovaBE_CSharp.Models
         public string? CustomerInternalId { get; set; }
 
         [Column("phone_number")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string? PhoneNumber { get; set; }
 
         [Column("amount")]
@@ -49,7 +49,7 @@ namespace RekovaBE_CSharp.Models
         [Column("arrears_before")]
         public decimal? ArrearsBefore { get; set; }
 
-        [Column("arrears_after")]  // FIXED: Matches database column name
+        [Column("arrears_after")]
         public decimal? ArrearsAfter { get; set; }
 
         [Column("payment_method")]
@@ -59,6 +59,19 @@ namespace RekovaBE_CSharp.Models
         [Column("mpesa_receipt_number")]
         [StringLength(100)]
         public string? MpesaReceiptNumber { get; set; }
+
+        [Column("pin_attempts")]
+        public int? PinAttempts { get; set; }
+
+        [Column("error_message")]
+        public string? ErrorMessage { get; set; }
+
+        [Column("failure_reason")]
+        [StringLength(50)]
+        public string? FailureReason { get; set; }
+
+        [Column("stk_push_sent_at")]
+        public DateTime? StkPushSentAt { get; set; }
 
         [Column("processed_at")]
         public DateTime? ProcessedAt { get; set; }
@@ -70,13 +83,12 @@ namespace RekovaBE_CSharp.Models
         [Column("initiated_by_user_id")]
         public int? InitiatedByUserId { get; set; }
 
-        [Column("created_at")]  // FIXED: Matches database column name
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [Column("updated_at")]  // FIXED: Matches database column name
+        [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        // Navigation properties
         [ForeignKey("CustomerId")]
         public virtual Customer? Customer { get; set; }
 

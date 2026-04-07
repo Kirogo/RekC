@@ -19,11 +19,11 @@ namespace RekovaBE_CSharp.Models
         public int CustomerId { get; set; }
 
         [Column("customer_name")]
-        [StringLength(255)]
+        [StringLength(200)]
         public string? CustomerName { get; set; }
 
         [Column("phone_number")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string? PhoneNumber { get; set; }
 
         [Column("promise_amount")]
@@ -53,19 +53,22 @@ namespace RekovaBE_CSharp.Models
         public int? CreatedByUserId { get; set; }
 
         [Column("created_by_name")]
-        [StringLength(255)]
+        [StringLength(200)]
         public string? CreatedByName { get; set; }
-
-        [Column("next_follow_up_date")]
-        public DateTime? NextFollowUpDate { get; set; }
 
         [Column("reminder_sent")]
         public bool? ReminderSent { get; set; }
 
-        [Column("created_at")]  // FIXED: Matches database column name
+        [Column("next_follow_up_date")]
+        public DateTime? NextFollowUpDate { get; set; }
+
+        [Column("follow_up_count")]
+        public int? FollowUpCount { get; set; }
+
+        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [Column("updated_at")]  // FIXED: Matches database column name
+        [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
         // Navigation properties

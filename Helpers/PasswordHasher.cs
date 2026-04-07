@@ -4,7 +4,6 @@ namespace RekovaBE_CSharp.Helpers
 {
     public static class PasswordHasher
     {
-        // Use BCrypt to match your MongoDB passwords
         public static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt(10));
@@ -18,6 +17,12 @@ namespace RekovaBE_CSharp.Helpers
                 if (passwordHash.StartsWith("$2"))
                 {
                     return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+                }
+                
+                // For testing - allow plain text comparison
+                if (password == passwordHash)
+                {
+                    return true;
                 }
                 
                 // Fallback to your custom format if needed
@@ -35,7 +40,7 @@ namespace RekovaBE_CSharp.Helpers
                     iterations,
                     System.Security.Cryptography.HashAlgorithmName.SHA256))
                 {
-                    var keyToCheck = algorithm.GetBytes(32); // HashSize = 32
+                    var keyToCheck = algorithm.GetBytes(32);
                     return keyToCheck.SequenceEqual(key);
                 }
             }

@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace RekovaBE_CSharp.Models
 {
@@ -12,20 +11,17 @@ namespace RekovaBE_CSharp.Models
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
         [Column("username")]
-        [StringLength(50)]
-        public string Username { get; set; } = string.Empty;
+        [StringLength(100)]
+        public string? Username { get; set; }
 
         [Column("email")]
-        [StringLength(100)]
+        [StringLength(200)]
         public string? Email { get; set; }
 
-        [Required]
         [Column("password_hash")]
         [StringLength(255)]
-        [JsonIgnore]
-        public string PasswordHash { get; set; } = string.Empty;
+        public string? PasswordHash { get; set; }
 
         [Column("first_name")]
         [StringLength(100)]
@@ -36,12 +32,12 @@ namespace RekovaBE_CSharp.Models
         public string? LastName { get; set; }
 
         [Column("phone")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string? Phone { get; set; }
 
         [Column("role")]
         [StringLength(50)]
-        public string? Role { get; set; } = "officer";
+        public string? Role { get; set; }
 
         [Column("loan_type")]
         [StringLength(50)]
@@ -49,17 +45,17 @@ namespace RekovaBE_CSharp.Models
 
         [Column("department")]
         [StringLength(100)]
-        public string? Department { get; set; } = "Collections";
-
-        [Column("employee_id")]
-        [StringLength(50)]
-        public string? EmployeeId { get; set; }
+        public string? Department { get; set; }
 
         [Column("is_active")]
-        public bool? IsActive { get; set; } = true;
+        public bool? IsActive { get; set; }
 
         [Column("last_login")]
         public DateTime? LastLogin { get; set; }
+
+        [Column("created_by")]
+        [StringLength(100)]
+        public string? CreatedBy { get; set; }
 
         [Column("created_at")]
         public DateTime? CreatedAt { get; set; }
@@ -68,19 +64,19 @@ namespace RekovaBE_CSharp.Models
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
-        [JsonIgnore]
+        [InverseProperty("AssignedToUser")]
         public virtual ICollection<Customer>? AssignedCustomers { get; set; }
 
-        [JsonIgnore]
+        [InverseProperty("InitiatedByUser")]
         public virtual ICollection<Transaction>? Transactions { get; set; }
 
-        [JsonIgnore]
+        [InverseProperty("CreatedByUser")]
         public virtual ICollection<Promise>? CreatedPromises { get; set; }
 
-        [JsonIgnore]
+        [InverseProperty("User")]
         public virtual ICollection<Activity>? Activities { get; set; }
 
-        [JsonIgnore]
-        public virtual ICollection<Comment>? Comments { get; set; }  // ADDED: Missing navigation property
+        [InverseProperty("User")]
+        public virtual ICollection<Comment>? Comments { get; set; }
     }
 }
