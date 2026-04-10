@@ -1,4 +1,5 @@
-// Models/DTOs/PromiseDtos.cs
+using System;
+
 namespace RekovaBE_CSharp.Models.DTOs
 {
     public class PromiseDto
@@ -33,5 +34,13 @@ namespace RekovaBE_CSharp.Models.DTOs
     {
         public string Status { get; set; } = string.Empty;
         public decimal? FulfillmentAmount { get; set; }
+    }
+
+    public class UpdatePromiseDto
+    {
+        public decimal? PromiseAmount { get; set; }
+        public DateTime? PromiseDate { get; set; }
+        public string? PromiseType { get; set; }
+        public string? Notes { get; set; }
     }
 }

@@ -38,7 +38,7 @@ Log.Information("Using MySQL connection to database: {Database}", dbName);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseMySql(connectionString, ServerVersion.Parse("8.0.0"),
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
         mysqlOptions =>
         {
             mysqlOptions.EnableRetryOnFailure(
@@ -48,8 +48,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         });
 });
 
-// ==================== CORS SETUP ====================
-var corsOrigins = (Environment.GetEnvironmentVariable("CORS_ORIGINS") ?? "http://localhost:5173,http://localhost:3000").Split(',');
+// ==================== CORS SETUP - FIXED ====================
+// Allow all common development ports
+var corsOrigins = new[] { 
+    "http://localhost:3000", 
+    "http://localhost:3001", 
+    "http://localhost:3002", 
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3002",
+    "http://127.0.0.1:5173"
+};
 
 builder.Services.AddCors(options =>
 {
@@ -234,6 +244,6 @@ app.MapGet("/api/health", () =>
 app.MapControllers();
 
 // ==================== RUN APP ====================
-var port = builder.Configuration.GetValue<int>("ApiSettings:Port");
+var port = 5555; // Force port 5555
 Log.Information("Starting application on port {Port}", port);
 await app.RunAsync($"http://0.0.0.0:{port}");
