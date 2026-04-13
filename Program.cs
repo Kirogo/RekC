@@ -1,3 +1,4 @@
+// Program.cs
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -130,6 +131,7 @@ builder.Services.AddScoped<IMpesaService, MpesaService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddHttpClient<IMpesaService, MpesaService>();
+builder.Services.AddScoped<IReportGenerationService, ReportGenerationService>();
 
 // Add background services
 builder.Services.AddHostedService<TransactionExpirationService>();
